@@ -38,7 +38,19 @@ const config: Config = {
         sans: ["var(--font-plex)", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        card: "10px",
+        // All radii flattened to 0 per design spec — sharp, brutalist grid.
+        // Avatars are square too (user confirmed).
+        // The presence dot keeps its circle via inline style override only.
+        none: "0px",
+        sm: "0px",
+        DEFAULT: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+        "2xl": "0px",
+        "3xl": "0px",
+        card: "0px",
+        full: "0px",
       },
       boxShadow: {
         card: "0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.04)",
