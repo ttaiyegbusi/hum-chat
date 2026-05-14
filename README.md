@@ -15,11 +15,22 @@ Open [http://localhost:3000](http://localhost:3000) — you'll be redirected to 
 
 ## Tech stack
 
-- **Next.js 15** App Router, TypeScript, static rendering
+- **Next.js 15.5.18** (May 2026 security patches) App Router, TypeScript, static rendering
+- **React 19.2.2** with the patched React Server Components implementation
 - **Tailwind CSS** with custom design tokens (see `tailwind.config.ts`)
 - **Framer Motion** for the drawer menu animation
 - **Lucide React** for icons
 - **IBM Plex Sans** loaded locally via `next/font/local` — no external font CDN
+
+## A note on security
+
+This project ships with the patched Next.js / React versions as of May 2026. The Next.js ecosystem has had several waves of CVE disclosures recently; if Vercel ever blocks a deploy with "Vulnerable version of Next.js detected", check the [Next.js blog](https://nextjs.org/blog) for the current patched version of your minor line and bump it:
+
+```bash
+npm install next@<latest-patched-version>
+git commit -am "chore: bump next to patched version"
+git push
+```
 
 ## Project structure
 
@@ -81,4 +92,3 @@ For the livestream player, `VideoPlayer.tsx` shows a blurred static image with a
 - Profile and Settings pages — placeholder shells
 
 These are all clean integration points, not redesigns. The UI is done.
-# hum-chat
