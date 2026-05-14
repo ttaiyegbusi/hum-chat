@@ -23,7 +23,7 @@ export function Avatar({ src, alt, size = 40, online = false, className }: Avata
       style={{ width: size, height: size }}
     >
       <div
-        className="relative overflow-hidden rounded-full bg-line"
+        className="relative overflow-hidden bg-line"
         style={{ width: size, height: size }}
       >
         {src ? (
@@ -45,10 +45,11 @@ export function Avatar({ src, alt, size = 40, online = false, className }: Avata
       </div>
       {online && (
         <span
-          className="absolute bottom-0 right-0 block rounded-full bg-presence ring-2 ring-surface"
+          className="absolute -bottom-0.5 -right-0.5 block bg-presence"
           style={{
-            width: size * 0.28,
-            height: size * 0.28,
+            width: size * 0.26,
+            height: size * 0.26,
+            boxShadow: "0 0 0 2px #FFFFFF",
           }}
           aria-label="Online"
         />
@@ -64,13 +65,13 @@ interface InitialsTileProps {
 }
 
 /**
- * Square tile with initials, used for group conversations (LD, OC in the design).
+ * Square tile with initials, used for group conversations (LC, OC, SR in the design).
  */
 export function InitialsTile({ initials, size = 40, className }: InitialsTileProps) {
   return (
     <div
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-md bg-line/60 text-ink",
+        "flex shrink-0 items-center justify-center bg-line/60 text-ink",
         className
       )}
       style={{ width: size, height: size, fontSize: size * 0.3 }}

@@ -1,16 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ConversationList } from "@/components/chats/ConversationList";
 import { ChatThread } from "@/components/chats/ChatThread";
-import { conversations, groupMessages, currentGroup } from "@/lib/mock-data";
+import {
+  conversations,
+  messagesByConversation,
+  currentDate,
+} from "@/lib/mock-data";
 import { cn } from "@/lib/cn";
 
 export default function ChatsPage() {
-  const [activeId, setActiveId] = useState<string>("c3"); // matches the "selected" item in screenshot
+  const [activeId, setActiveId] = useState<string>("c3"); // Maya, matches the highlighted item
   const [mobileShowThread, setMobileShowThread] = useState(false);
+
+  const activeConversation = useMemo(
+    () => conversations.find((c) => c.id === activeId) ?? conversations[0],
+    [activeId]
+  );
+
+  const activeMessages = useMemo(
+    () => messagesByConversation[activeId] ?? [],
+    [activeId]
+  );
 
   const handleSelect = (id: string) => {
     setActiveId(id);
@@ -52,10 +66,9 @@ export default function ChatsPage() {
           </button>
           <div className="h-[calc(100%-32px)] md:h-full">
             <ChatThread
-              groupName={currentGroup.name}
-              groupMembers={currentGroup.members}
-              date={currentGroup.date}
-              messages={groupMessages}
+              conversation={activeConversation}
+              messages={activeMessages}
+              date={currentDate}
             />
           </div>
         </div>

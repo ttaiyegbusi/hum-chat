@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
   <defs>
     <radialGradient id="g" cx="35%" cy="30%" r="80%">
-      <stop offset="0%" stop-color="hsl(250, 55%, 78%)"/>
-      <stop offset="100%" stop-color="hsl(275, 50%, 58%)"/>
+      <stop offset="0%" stop-color="hsl(220, 55%, 78%)"/>
+      <stop offset="100%" stop-color="hsl(245, 50%, 58%)"/>
     </radialGradient>
   </defs>
   <rect width="120" height="120" fill="url(#g)"/>
   <text x="60" y="60" text-anchor="middle" dominant-baseline="central"
         font-family="IBM Plex Sans, system-ui, sans-serif"
-        font-size="46" font-weight="500" fill="white" letter-spacing="-1">JD</text>
+        font-size="46" font-weight="500" fill="white" letter-spacing="-1">KL</text>
 </svg>

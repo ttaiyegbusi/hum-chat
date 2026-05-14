@@ -4,14 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Play, MessageSquare, Users } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { Avatar } from "@/components/ui/Avatar";
+import { Avatar, InitialsTile } from "@/components/ui/Avatar";
 import { BracketBadge } from "@/components/ui/BracketBadge";
 import { VerifiedSeal } from "@/components/ui/VerifiedSeal";
-import { conversations, liveViewers, currentStream } from "@/lib/mock-data";
+import {
+  conversations,
+  peopleOnline,
+  upcomingStreams,
+  currentStream,
+} from "@/lib/mock-data";
 
 export default function DashboardPage() {
-  const recent = conversations.slice(0, 3);
-  const onlineFriends = liveViewers.filter((v) => v.online).slice(0, 8);
+  const recent = conversations.slice(0, 5);
   const totalUnread = conversations.reduce((sum, c) => sum + (c.unread ?? 0), 0);
 
   return (
@@ -19,21 +23,17 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-[1600px]">
         {/* Greeting */}
         <section className="px-1 pb-8 pt-2">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[12px] uppercase tracking-[0.2em] text-muted-strong">
-                Welcome back
-              </p>
-              <h1 className="mt-2 text-3xl font-semibold text-ink sm:text-4xl">
-                Good morning, John
-              </h1>
-              <p className="mt-2 text-[14px] text-muted-strong">
-                <BracketBadge spaced>{totalUnread}</BracketBadge> unread messages
-                <span className="mx-2 text-muted">·</span>
-                <span className="text-accent">1 stream live now</span>
-              </p>
-            </div>
-          </div>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-muted-strong">
+            Welcome back
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold text-ink sm:text-4xl">
+            Good morning, Leo
+          </h1>
+          <p className="mt-2 text-[14px] text-muted-strong">
+            <BracketBadge spaced>{totalUnread}</BracketBadge> unread messages
+            <span className="mx-2 text-muted">·</span>
+            <span className="text-accent">1 stream live now</span>
+          </p>
         </section>
 
         {/* Feature cards */}
@@ -41,12 +41,15 @@ export default function DashboardPage() {
           {/* Livestream feature card */}
           <Link
             href="/livestream"
-            className="group relative overflow-hidden rounded-card bg-surface p-5 shadow-card transition-all hover:shadow-lift sm:p-6"
+            className="group relative overflow-hidden bg-surface p-5 shadow-card transition-shadow hover:shadow-lift sm:p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1.5 rounded-md bg-accent px-2 py-0.5 text-[11px] font-medium text-white">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                <span className="flex items-center gap-1.5 bg-accent px-2 py-0.5 text-[11px] font-medium text-white">
+                  <span
+                    className="h-1.5 w-1.5 bg-white"
+                    style={{ borderRadius: "9999px" }}
+                  />
                   Live
                 </span>
                 <span className="text-[12px] uppercase tracking-wider text-muted-strong">
@@ -59,7 +62,7 @@ export default function DashboardPage() {
                 className="text-muted-strong transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink"
               />
             </div>
-            <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-md bg-line/40">
+            <div className="relative mb-4 aspect-[16/9] overflow-hidden bg-line/40">
               <Image
                 src="/stream-thumb.svg"
                 alt="Live stream"
@@ -69,7 +72,7 @@ export default function DashboardPage() {
                 unoptimized
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/70 shadow-md backdrop-blur-sm">
+                <span className="flex h-12 w-12 items-center justify-center bg-white/80 shadow-md backdrop-blur-sm">
                   <Play size={20} fill="#EE5A2C" stroke="#EE5A2C" className="ml-0.5" />
                 </span>
               </div>
@@ -90,7 +93,7 @@ export default function DashboardPage() {
           {/* Chats feature card */}
           <Link
             href="/chats"
-            className="group relative overflow-hidden rounded-card bg-surface p-5 shadow-card transition-all hover:shadow-lift sm:p-6"
+            className="group relative overflow-hidden bg-surface p-5 shadow-card transition-shadow hover:shadow-lift sm:p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -105,15 +108,13 @@ export default function DashboardPage() {
                 className="text-muted-strong transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink"
               />
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {recent.map((c) => (
-                <div key={c.id} className="flex items-start gap-3 rounded-md py-2">
+                <div key={c.id} className="flex items-start gap-3 py-1.5">
                   {c.avatarUrl ? (
                     <Avatar src={c.avatarUrl} alt={c.name} online={c.online} size={36} />
                   ) : (
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-line/60 text-[12px] font-medium text-ink">
-                      {c.initials}
-                    </div>
+                    <InitialsTile initials={c.initials ?? "??"} size={36} />
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
@@ -135,22 +136,22 @@ export default function DashboardPage() {
           </Link>
         </section>
 
-        {/* Online friends */}
+        {/* People online */}
         <section className="mt-8">
           <div className="mb-4 flex items-center justify-between px-1">
             <h3 className="text-[13px] uppercase tracking-wider text-muted-strong">
               People online
             </h3>
             <span className="text-[12px] text-muted-strong">
-              <BracketBadge>{onlineFriends.length}</BracketBadge>
+              <BracketBadge>{peopleOnline.length}</BracketBadge>
             </span>
           </div>
           <div className="scrollbar-hidden flex gap-4 overflow-x-auto px-1 pb-2">
-            {onlineFriends.map((f) => (
-              <div key={f.id} className="flex w-20 shrink-0 flex-col items-center gap-2">
-                <Avatar src={f.avatarUrl} alt={f.name} online size={52} />
-                <span className="line-clamp-1 text-center text-[12px] text-ink">
-                  {f.name.split(" ")[0]}
+            {peopleOnline.map((f) => (
+              <div key={f.id} className="flex w-16 shrink-0 flex-col items-center gap-2">
+                <Avatar src={f.avatarUrl} alt={f.name} online size={48} />
+                <span className="line-clamp-1 text-center text-[11px] text-ink">
+                  {f.name}
                 </span>
               </div>
             ))}
@@ -165,17 +166,20 @@ export default function DashboardPage() {
             </h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: "Late night talks with Ada", host: "ADA OKONKWO", time: "Tonight · 9:00 PM" },
-              { title: "Sunday cookout sessions", host: "CHEF MARCO", time: "Sun · 4:00 PM" },
-              { title: "Indie music corner", host: "SOFIAT B.", time: "Mon · 7:30 PM" },
-            ].map((item) => (
+            {upcomingStreams.map((item) => (
               <div
-                key={item.title}
-                className="cursor-pointer rounded-card bg-surface p-4 shadow-card transition-all hover:shadow-lift"
+                key={item.id}
+                className="group cursor-pointer overflow-hidden bg-surface p-4 shadow-card transition-shadow hover:shadow-lift"
               >
-                <div className="relative mb-3 aspect-[16/9] overflow-hidden rounded-md bg-line/30">
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-canvas to-line/30" />
+                <div className="relative mb-3 aspect-[16/9] overflow-hidden bg-line/30">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    unoptimized
+                  />
                 </div>
                 <h4 className="text-[15px] font-medium text-ink">{item.title}</h4>
                 <p className="mt-0.5 text-[11px] uppercase tracking-wider text-muted-strong">

@@ -5,15 +5,22 @@ import { VideoPlayer } from "@/components/livestream/VideoPlayer";
 import { StreamMeta } from "@/components/livestream/StreamMeta";
 import { StreamTabs } from "@/components/livestream/StreamTabs";
 import { SidePanel } from "@/components/livestream/SidePanel";
-import { currentStream, liveViewers } from "@/lib/mock-data";
+import {
+  currentStream,
+  liveViewers,
+  liveChatMessages,
+  liveChatIncoming,
+} from "@/lib/mock-data";
 
 export default function LivestreamPage() {
   return (
     <PageShell title="Livestream">
       <div className="mx-auto grid max-w-[1600px] gap-4 lg:grid-cols-[1fr_360px] lg:gap-6 xl:grid-cols-[1fr_400px]">
         {/* Main column: video + meta + tabs */}
-        <div className="rounded-card bg-surface px-4 pt-4 shadow-card sm:px-6 sm:pt-6">
+        <div className="bg-surface px-4 pt-4 shadow-card sm:px-6 sm:pt-6">
           <VideoPlayer
+            videoUrl={currentStream.videoUrl}
+            posterUrl={currentStream.posterUrl}
             viewerCount={currentStream.viewerCount}
             duration={currentStream.duration}
           />
@@ -29,7 +36,12 @@ export default function LivestreamPage() {
 
         {/* Side column: viewers + chat */}
         <div className="h-[600px] lg:h-[calc(100vh-112px)]">
-          <SidePanel viewers={liveViewers} totalViewers={65} />
+          <SidePanel
+            viewers={liveViewers}
+            totalViewers={65}
+            initialChat={liveChatMessages}
+            incomingPool={liveChatIncoming}
+          />
         </div>
       </div>
     </PageShell>

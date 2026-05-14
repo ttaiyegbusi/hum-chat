@@ -26,7 +26,8 @@ export function ConversationListItem({
     <button
       onClick={onClick}
       className={cn(
-        "group flex w-full items-start gap-3 rounded-card px-3 py-3 text-left transition-all",
+        "group flex w-full items-start gap-3 px-3 py-3 text-left",
+        "transition-[background-color,box-shadow] duration-200 ease-out",
         active
           ? "bg-surface shadow-card"
           : "bg-transparent hover:bg-surface/60"

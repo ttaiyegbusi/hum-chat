@@ -1,29 +1,49 @@
 #!/usr/bin/env node
 /**
- * Generates simple, attractive SVG avatar placeholders that work without any
- * external CDN. Each avatar is a soft gradient circle with the person's
- * initials overlaid. Saved to /public/avatars/<slug>.svg.
+ * Generates simple, attractive SVG avatar placeholders. Each avatar is a soft
+ * radial-gradient square (corners are 0px, matching the design system) with
+ * the person's initials overlaid. Saved to /public/avatars/<slug>.svg.
  *
  * Run: node scripts/generate-avatars.js
  */
 const fs = require("fs");
 const path = require("path");
 
+// Fresh cast — diverse social community, no healthcare context
 const people = [
-  { slug: "anthony-w", name: "Anthony Williams", hue: 20 },
-  { slug: "anthony-s", name: "Anthony Sodunke", hue: 215 },
-  { slug: "aisha", name: "Aisha Bello", hue: 340 },
-  { slug: "sofiat", name: "Sofiat Bello", hue: 280 },
-  { slug: "adebayo", name: "Adebayo Oladipo", hue: 195 },
-  { slug: "natasha", name: "Natasha Ivanka", hue: 35 },
-  { slug: "shola", name: "Shola Williams", hue: 165 },
-  { slug: "jessica", name: "Jessica Levi", hue: 305 },
-  { slug: "joshua", name: "Joshua Destiny", hue: 250 },
-  { slug: "amelia", name: "Amelia Carter", hue: 12 },
-  { slug: "samuel", name: "Samuel Johnson", hue: 145 },
-  { slug: "lily", name: "Lily Harper", hue: 325 },
-  { slug: "ethan", name: "Ethan Parker", hue: 200 },
-  { slug: "lena", name: "Lena Kim", hue: 50 },
+  // Core friends / DMs
+  { slug: "kira", name: "Kira Mensah", hue: 20 },
+  { slug: "deji", name: "Deji Adebayo", hue: 215 },
+  { slug: "maya", name: "Maya Okafor", hue: 340 },
+  { slug: "rio", name: "Rio Tanaka", hue: 280 },
+  { slug: "noah", name: "Noah Reyes", hue: 195 },
+  { slug: "yuki", name: "Yuki Sato", hue: 35 },
+  { slug: "kemi", name: "Kemi Williams", hue: 165 },
+  { slug: "tobi", name: "Tobi Ade", hue: 305 },
+  { slug: "lena", name: "Lena Park", hue: 250 },
+  { slug: "marco", name: "Marco Silva", hue: 12 },
+  { slug: "ana", name: "Ana Vega", hue: 145 },
+  { slug: "zara", name: "Zara Khalid", hue: 325 },
+  { slug: "ethan", name: "Ethan Brooks", hue: 200 },
+
+  // Extended community
+  { slug: "amara", name: "Amara Okeke", hue: 50 },
+  { slug: "felix", name: "Felix Holm", hue: 110 },
+  { slug: "priya", name: "Priya Rao", hue: 350 },
+  { slug: "leo", name: "Leo Carter", hue: 240 },
+  { slug: "sana", name: "Sana Khan", hue: 290 },
+  { slug: "diego", name: "Diego Cruz", hue: 25 },
+  { slug: "ines", name: "Ines Rocha", hue: 175 },
+  { slug: "kai", name: "Kai Lin", hue: 220 },
+  { slug: "thalia", name: "Thalia Owens", hue: 320 },
+  { slug: "ravi", name: "Ravi Patel", hue: 155 },
+  { slug: "june", name: "June Park", hue: 295 },
+
+  // Stream hosts
+  { slug: "ada", name: "Ada Okonkwo", hue: 45 },
+  { slug: "marco-chef", name: "Marco Liu", hue: 18 },
+  { slug: "sofiat", name: "Sofiat B.", hue: 270 },
+  { slug: "lena-host", name: "Lena Kim", hue: 50 },
 ];
 
 function initials(name) {
@@ -57,11 +77,18 @@ function svgFor({ name, hue }) {
 
 const outDir = path.join(__dirname, "..", "public", "avatars");
 fs.mkdirSync(outDir, { recursive: true });
+
+// Clear old avatars first
+const existing = fs.readdirSync(outDir);
+for (const f of existing) {
+  if (f.endsWith(".svg")) fs.unlinkSync(path.join(outDir, f));
+}
+
 for (const p of people) {
   fs.writeFileSync(path.join(outDir, `${p.slug}.svg`), svgFor(p));
 }
 
-// Livestream thumbnail — a soft warm gradient with subtle shapes
+// Livestream thumbnail fallback
 const thumb = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
